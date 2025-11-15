@@ -1,13 +1,15 @@
+'use client';
+import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarIcon, Plus, ArrowRight } from "lucide-react";
-import { events } from "@/lib/data";
+import { events as initialEvents, Event } from "@/lib/data";
 import { format } from "date-fns";
 import Link from "next/link";
 import { Badge, BadgeProps } from "@/components/ui/badge";
 import { AddEventDialog } from "@/app/components/add-event-dialog";
 
-const categoryVariants: Record<typeof events[0]['category'], BadgeProps['variant']> = {
+const categoryVariants: Record<Event['category'], BadgeProps['variant']> = {
     family: 'secondary',
     baby: 'default',
     doctor: 'destructive',
@@ -15,8 +17,14 @@ const categoryVariants: Record<typeof events[0]['category'], BadgeProps['variant
 }
 
 export function CalendarWidget() {
+    const [events, setEvents] = useState<Event[]>(initialEvents);
+
+    const handleAddEvent = (newEvent: Event) => {
+        setEvents(prevEvents => [...prevEvents, newEvent].sort((a,b) => a.date.getTime() - b.date.getTime()));
+    };
+
     const upcomingEvents = events
-        .filter(e => e.category !== 'festival' && e.date >= new Date())
+        .filter(e => e.date >= new Date())
         .sort((a, b) => a.date.getTime() - b.date.getTime())
         .slice(0, 3);
 
@@ -25,7 +33,7 @@ export function CalendarWidget() {
             <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="font-headline text-lg">Upcoming Events</CardTitle>
                 <div className="flex items-center gap-2">
-                     <AddEventDialog>
+                     <AddEventDialog onEventAdd={handleAddEvent}>
                         <Button size="sm" variant="outline">
                             <Plus className="mr-2 h-4 w-4" /> Add
                         </Button>

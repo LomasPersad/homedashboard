@@ -7,7 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { format } from "date-fns";
+import { format, isPast, isToday, isFuture } from "date-fns";
 import { AddTaskDialog } from "@/app/components/add-task-dialog";
 
 const priorityVariant = {
@@ -17,6 +17,14 @@ const priorityVariant = {
 } as const;
 
 function TaskItem({ task, onToggle }: { task: Task; onToggle: (id: string, completed: boolean) => void }) {
+    const dueDateText = () => {
+        if (!task.dueDate) return '';
+        if (isToday(task.dueDate)) return 'Due: Today';
+        if (isPast(task.dueDate) && !task.completed) return `Overdue: ${format(task.dueDate, 'MMM d')}`;
+        if (isFuture(task.dueDate)) return `Due: ${format(task.dueDate, 'MMM d')}`;
+        return `Due: ${format(task.dueDate, 'MMM d')}`;
+    };
+    
     return (
         <div className="flex items-center gap-4 rounded-lg border p-4 transition-colors hover:bg-muted/50">
             <Checkbox 
@@ -29,12 +37,12 @@ function TaskItem({ task, onToggle }: { task: Task; onToggle: (id: string, compl
                     {task.title}
                 </label>
                 {task.dueDate && (
-                    <p className="text-sm text-muted-foreground">
-                        Due: {format(task.dueDate, 'MMM d')}
+                    <p className={`text-sm ${isPast(task.dueDate) && !task.completed ? 'text-destructive' : 'text-muted-foreground'}`}>
+                        {dueDateText()}
                     </p>
                 )}
             </div>
-            <Badge variant={priorityVariant[task.priority]}>{task.priority}</Badge>
+            <Badge variant={priorityVariant[task.priority]} className="capitalize">{task.priority}</Badge>
         </div>
     );
 }
@@ -53,7 +61,7 @@ export default function TasksPage() {
   
   const TaskList = ({ listName }: { listName: 'All' | 'Home' | 'Baby' | 'Errands' | 'Chores' }) => {
     const filteredTasks = listName === 'All' ? tasks : tasks.filter(task => task.list === listName);
-    const openTasks = filteredTasks.filter(t => !t.completed);
+    const openTasks = filteredTasks.filter(t => !t.completed).sort((a, b) => (a.dueDate ? a.dueDate.getTime() : Infinity) - (b.dueDate ? b.dueDate.getTime() : Infinity));
     const completedTasks = filteredTasks.filter(t => t.completed);
 
     return (
@@ -61,12 +69,12 @@ export default function TasksPage() {
             {openTasks.length > 0 ? (
                 openTasks.map(task => <TaskItem key={task.id} task={task} onToggle={handleToggleTask} />)
             ) : (
-                <p className="text-muted-foreground italic text-center py-8">No open tasks in this list.</p>
+                <p className="text-muted-foreground italic text-center py-8">No open tasks in this list. Great job!</p>
             )}
 
             {completedTasks.length > 0 && (
                 <div>
-                    <h3 className="mb-2 mt-6 text-sm font-semibold text-muted-foreground">Completed</h3>
+                    <h3 className="mb-2 mt-6 text-sm font-semibold text-muted-foreground uppercase tracking-wider">Completed</h3>
                     <div className="space-y-4 opacity-60">
                         {completedTasks.map(task => <TaskItem key={task.id} task={task} onToggle={handleToggleTask} />)}
                     </div>
@@ -89,10 +97,10 @@ export default function TasksPage() {
         </div>
       </CardHeader>
       <CardContent>
-        <Tabs defaultValue="All">
+        <Tabs defaultValue="All" className="w-full">
           <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5">
             {taskLists.map(list => (
-                <TabsTrigger key={list} value={list} className="font-headline">{list}</TabsTrigger>
+                <TabsTrigger key={list} value={list} className="font-headline capitalize">{list}</TabsTrigger>
             ))}
           </TabsList>
           {taskLists.map(list => (

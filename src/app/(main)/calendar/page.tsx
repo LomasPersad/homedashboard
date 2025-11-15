@@ -8,6 +8,7 @@ import { events as initialEvents, Event } from '@/lib/data';
 import { format } from 'date-fns';
 import { Badge, BadgeProps } from '@/components/ui/badge';
 import { AddEventDialog } from '@/app/components/add-event-dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const categoryVariants: Record<Event['category'], BadgeProps['variant']> = {
     family: 'secondary',
@@ -15,6 +16,9 @@ const categoryVariants: Record<Event['category'], BadgeProps['variant']> = {
     doctor: 'destructive',
     festival: 'outline',
 };
+
+type EventCategory = 'All' | 'family' | 'baby' | 'doctor' | 'festival';
+const eventCategories: EventCategory[] = ['All', 'family', 'baby', 'doctor', 'festival'];
 
 export default function CalendarPage() {
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -31,59 +35,94 @@ export default function CalendarPage() {
         (event) => format(event.date, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
       )
     : [];
+  
+  const EventList = ({ filter }: { filter: EventCategory }) => {
+    const filteredEvents = filter === 'All' ? allEvents : allEvents.filter(e => e.category === filter);
+    return (
+        <div className="space-y-3 h-[380px] overflow-y-auto pr-2">
+            {filteredEvents.length > 0 ? (
+                filteredEvents.map(event => (
+                    <div key={event.id} className="rounded-lg border bg-card p-3 shadow-sm transition-all hover:shadow-md">
+                        <div className="flex justify-between items-start">
+                            <div>
+                                <p className="font-semibold">{event.title}</p>
+                                <p className="text-sm text-muted-foreground">{format(event.date, 'PPP, p')}</p>
+                            </div>
+                            <Badge variant={categoryVariants[event.category]} className="capitalize">{event.category}</Badge>
+                        </div>
+                    </div>
+                ))
+            ) : (
+                <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground py-8">
+                  <p>No events in this category.</p>
+                </div>
+            )}
+        </div>
+    )
+  }
 
   return (
-    <Card className="w-full">
-      <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle className="font-headline">Event Calendar</CardTitle>
-            <CardDescription>Your family's schedule at a glance.</CardDescription>
-          </div>
-          <AddEventDialog onEventAdd={handleAddEvent}>
-          <Button>
-              <Plus className="mr-2 h-4 w-4" /> Add Event
-          </Button>
-          </AddEventDialog>
-      </CardHeader>
-      <CardContent className="grid gap-6 md:grid-cols-5">
-        <div className="md:col-span-3">
-          <Calendar
-              mode="single"
-              selected={date}
-              onSelect={setDate}
-              className="rounded-md border"
-              modifiers={{
-                  events: events.map(e => e.date)
-              }}
-              modifiersStyles={{
-                  events: {
-                      color: 'hsl(var(--primary-foreground))',
-                      backgroundColor: 'hsl(var(--primary))'
-                  }
-              }}
-            />
-        </div>
-        <div className="md:col-span-2 space-y-4">
-          <h3 className="font-headline text-lg">
-              {date ? format(date, 'MMMM d, yyyy') : 'Select a date'}
-          </h3>
-          <div className="space-y-3 h-[280px] overflow-y-auto pr-2">
-              {date && selectedDayEvents.length > 0 ? (
-                  selectedDayEvents.map(event => (
-                      <div key={event.id} className="rounded-lg border bg-card p-3 shadow-sm transition-all hover:shadow-md">
-                          <p className="font-semibold">{event.title}</p>
-                          <p className="text-sm text-muted-foreground">{format(event.date, 'p')}</p>
-                          <Badge variant={categoryVariants[event.category]} className="mt-2">{event.category}</Badge>
-                      </div>
-                  ))
-              ) : (
-                  <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground py-8">
-                    <p>No events for this day.</p>
-                  </div>
-              )}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
+        <Card>
+            <CardHeader>
+                <CardTitle className="font-headline">Your Family Calendar</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    className="rounded-md border w-full"
+                    modifiers={{
+                        events: allEvents.map(e => e.date)
+                    }}
+                    modifiersStyles={{
+                        events: {
+                            color: 'hsl(var(--primary-foreground))',
+                            backgroundColor: 'hsl(var(--primary))'
+                        }
+                    }}
+                />
+            </CardContent>
+        </Card>
+
+        <Card>
+            <CardHeader>
+                <div className="flex items-center justify-between">
+                    <div>
+                        <CardTitle className="font-headline">
+                            {date ? `Events for ${format(date, 'MMMM d')}` : 'All Events'}
+                        </CardTitle>
+                        <CardDescription>
+                            {date && selectedDayEvents.length > 0
+                                ? `You have ${selectedDayEvents.length} event(s) today.`
+                                : date
+                                ? 'No events planned for today.'
+                                : 'A view of all your events.'}
+                        </CardDescription>
+                    </div>
+                    <AddEventDialog onEventAdd={handleAddEvent}>
+                        <Button>
+                            <Plus className="mr-2 h-4 w-4" /> Add Event
+                        </Button>
+                    </AddEventDialog>
+                </div>
+            </CardHeader>
+            <CardContent>
+                 <Tabs defaultValue="All" className="w-full">
+                    <TabsList className="grid w-full grid-cols-5">
+                       {eventCategories.map(cat => (
+                         <TabsTrigger key={cat} value={cat} className="capitalize">{cat}</TabsTrigger>
+                       ))}
+                    </TabsList>
+                    {eventCategories.map(cat => (
+                        <TabsContent key={cat} value={cat}>
+                            <EventList filter={cat} />
+                        </TabsContent>
+                    ))}
+                </Tabs>
+            </CardContent>
+        </Card>
+    </div>
   );
 }
