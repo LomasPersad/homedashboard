@@ -3,6 +3,7 @@ import { PhotosWidget } from "./dashboard/photos-widget";
 import { QuickActions } from "./dashboard/quick-actions";
 import { FullCalendarWidget } from "./dashboard/full-calendar";
 import { CalendarWidget } from "./dashboard/calendar-widget";
+import { FestivalsWidget } from "./dashboard/festivals-widget";
 
 export default function DashboardPage() {
   return (
@@ -13,6 +14,7 @@ export default function DashboardPage() {
       </div>
       <div className="space-y-6 lg:col-span-1">
         <QuickActions />
+        <FestivalsWidget />
         <CalendarWidget />
         <TasksWidget />
       </div>
