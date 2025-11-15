@@ -1,7 +1,10 @@
+'use client';
+
+import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { tasks } from "@/lib/data";
+import { tasks as initialTasks, Task } from "@/lib/data";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
@@ -14,6 +17,20 @@ const priorityVariant = {
 } as const;
 
 export function TasksWidget() {
+    const [tasks, setTasks] = useState<Task[]>(initialTasks);
+
+    const handleToggleTask = (id: string, completed: boolean) => {
+        setTasks(currentTasks => 
+            currentTasks.map(task => 
+                task.id === id ? { ...task, completed } : task
+            )
+        );
+    };
+
+    const handleAddTask = (newTask: Task) => {
+        setTasks(prevTasks => [...prevTasks, newTask]);
+    };
+
     const highPriorityTasks = tasks.filter(t => !t.completed).sort((a,b) => {
         const priorityOrder = { high: 0, medium: 1, low: 2 };
         return priorityOrder[a.priority] - priorityOrder[b.priority];
@@ -27,7 +44,7 @@ export function TasksWidget() {
                     <Button variant="outline" size="sm" asChild>
                         <Link href="/tasks">View All</Link>
                     </Button>
-                    <AddTaskDialog>
+                    <AddTaskDialog onTaskAdd={handleAddTask}>
                         <Button size="sm">
                             <Plus className="mr-2 h-4 w-4" /> Add
                         </Button>
@@ -39,8 +56,12 @@ export function TasksWidget() {
                     {highPriorityTasks.length > 0 ? (
                         highPriorityTasks.map(task => (
                             <div key={task.id} className="flex items-center gap-3 rounded-md border p-3 transition-colors hover:bg-muted/50">
-                                <Checkbox id={`task-widget-${task.id}`} checked={task.completed} />
-                                <label htmlFor={`task-widget-${task.id}`} className="flex-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                <Checkbox 
+                                    id={`task-widget-${task.id}`} 
+                                    checked={task.completed} 
+                                    onCheckedChange={(checked) => handleToggleTask(task.id, !!checked)}
+                                />
+                                <label htmlFor={`task-widget-${task.id}`} className={`flex-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${task.completed ? 'line-through text-muted-foreground' : ''}`}>
                                     {task.title}
                                 </label>
                                 <Badge variant={priorityVariant[task.priority]}>{task.priority}</Badge>
