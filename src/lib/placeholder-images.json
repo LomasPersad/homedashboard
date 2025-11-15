@@ -1,3 +1,58 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "photo1",
+      "description": "Baby smiling in a high chair",
+      "imageUrl": "https://images.unsplash.com/photo-1658797458128-56fabe017a76?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YmFieSUyMHNtaWxpbmd8ZW58MHx8fHwxNzYzMTA0Mjk0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "baby smiling"
+    },
+    {
+      "id": "photo2",
+      "description": "Baby playing with blocks",
+      "imageUrl": "https://images.unsplash.com/photo-1504484656217-38f8ffc617f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxiYWJ5JTIwcGxheWluZ3xlbnwwfHx8fDE3NjMyMDE1MzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "baby playing"
+    },
+    {
+      "id": "photo3",
+      "description": "Baby sleeping peacefully",
+      "imageUrl": "https://images.unsplash.com/photo-1587116215900-bb2bba7c7cff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxiYWJ5JTIwc2xlZXBpbmd8ZW58MHx8fHwxNzYzMTk0NTY0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "baby sleeping"
+    },
+    {
+      "id": "photo4",
+      "description": "Baby's first steps",
+      "imageUrl": "https://images.unsplash.com/photo-1495131292899-bc096577e8f5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxiYWJ5JTIwd2Fsa2luZ3xlbnwwfHx8fDE3NjMxMDQ5MTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "baby walking"
+    },
+    {
+      "id": "photo5",
+      "description": "Baby with a funny hat",
+      "imageUrl": "https://images.unsplash.com/photo-1595010062329-7a7f8f763bf2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxiYWJ5JTIwaGF0fGVufDB8fHx8MTc2MzIwMTUzNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "baby hat"
+    },
+    {
+      "id": "photo6",
+      "description": "Baby splashing in the bath",
+      "imageUrl": "https://images.unsplash.com/flagged/photo-1564228539519-4dfe919785a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxiYWJ5JTIwYmF0aHxlbnwwfHx8fDE3NjMxMDQyOTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "baby bath"
+    },
+    {
+      "id": "photo7",
+      "description": "Family portrait with the baby",
+      "imageUrl": "https://images.unsplash.com/photo-1605713288610-00c1c630ca1e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxmYW1pbHklMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjMxMzY4Njl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "family portrait"
+    },
+    {
+      "id": "photo8",
+      "description": "Baby eating spaghetti",
+      "imageUrl": "https://images.unsplash.com/photo-1626680114455-802f80973291?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YmFieSUyMGVhdGluZ3xlbnwwfHx8fDE3NjMxMzMwNTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "baby eating"
+    },
+    {
+      "id": "photo9",
+      "description": "Baby's birthday party",
+      "imageUrl": "https://images.unsplash.com/photo-1544155892-b2b6c64204fc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxiaXJ0aGRheSUyMHBhcnR5fGVufDB8fHx8MTc2MzA5NzQ1MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "birthday party"
+    }
+  ]
 }
