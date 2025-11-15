@@ -29,6 +29,9 @@ export function Header() {
       <div className="md:hidden">
         <SidebarTrigger />
       </div>
+      <div className="hidden md:block">
+        <SidebarTrigger />
+      </div>
       <h1 className="font-headline text-xl font-semibold tracking-wider text-foreground/90 md:text-2xl">
         {title}
       </h1>

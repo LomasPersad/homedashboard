@@ -33,8 +33,8 @@ export default function CalendarPage() {
     : [];
 
   return (
-    <div className="grid flex-1 items-start gap-6">
-      <div className="grid auto-rows-max items-start gap-6">
+    <div className="grid flex-1 grid-cols-1 items-start gap-6 lg:grid-cols-3">
+      <div className="grid auto-rows-max items-start gap-6 lg:col-span-2">
         <Card>
             <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="font-headline text-2xl">Event Calendar</CardTitle>
@@ -63,7 +63,7 @@ export default function CalendarPage() {
             </CardContent>
         </Card>
       </div>
-      <div className="space-y-6">
+      <div className="space-y-6 lg:col-span-1">
         <Card>
             <CardHeader>
             <CardTitle className="font-headline text-xl">
