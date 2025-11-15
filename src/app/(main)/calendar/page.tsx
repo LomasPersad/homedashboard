@@ -33,7 +33,7 @@ export default function CalendarPage() {
     : [];
 
   return (
-    <div className="grid flex-1 items-start gap-6 md:grid-cols-[1fr_350px]">
+    <div className="grid flex-1 items-start gap-6">
       <div className="grid auto-rows-max items-start gap-6">
         <Card>
             <CardHeader className="flex flex-row items-center justify-between">
