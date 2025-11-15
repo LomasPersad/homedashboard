@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, ArrowRight } from "lucide-react";
 import { tasks as initialTasks, Task } from "@/lib/data";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
@@ -37,18 +37,18 @@ export function TasksWidget() {
     }).slice(0, 5);
 
     return (
-        <Card>
+        <Card className="h-full">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="font-headline text-lg">To-Do List</CardTitle>
                 <div className="flex items-center gap-2">
-                    <Button variant="outline" size="sm" asChild>
-                        <Link href="/tasks">View All</Link>
-                    </Button>
                     <AddTaskDialog onTaskAdd={handleAddTask}>
-                        <Button size="sm">
+                        <Button size="sm" variant="outline">
                             <Plus className="mr-2 h-4 w-4" /> Add
                         </Button>
                     </AddTaskDialog>
+                     <Button variant="default" size="sm" asChild>
+                        <Link href="/tasks">All Tasks <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                    </Button>
                 </div>
             </CardHeader>
             <CardContent>

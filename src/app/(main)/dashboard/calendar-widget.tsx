@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar as CalendarIcon, Plus } from "lucide-react";
+import { Calendar as CalendarIcon, Plus, ArrowRight } from "lucide-react";
 import { events } from "@/lib/data";
 import { format } from "date-fns";
 import Link from "next/link";
@@ -15,21 +15,24 @@ const categoryVariants: Record<typeof events[0]['category'], BadgeProps['variant
 }
 
 export function CalendarWidget() {
-    const upcomingEvents = events.filter(e => e.date >= new Date()).sort((a, b) => a.date.getTime() - b.date.getTime()).slice(0, 3);
+    const upcomingEvents = events
+        .filter(e => e.category !== 'festival' && e.date >= new Date())
+        .sort((a, b) => a.date.getTime() - b.date.getTime())
+        .slice(0, 3);
 
     return (
-        <Card>
+        <Card className="h-full">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="font-headline text-lg">Upcoming Events</CardTitle>
                 <div className="flex items-center gap-2">
-                    <Button variant="outline" size="sm" asChild>
-                        <Link href="/calendar">View All</Link>
-                    </Button>
-                    <AddEventDialog>
-                        <Button size="sm">
+                     <AddEventDialog>
+                        <Button size="sm" variant="outline">
                             <Plus className="mr-2 h-4 w-4" /> Add
                         </Button>
                     </AddEventDialog>
+                    <Button variant="default" size="sm" asChild>
+                        <Link href="/calendar">All Events <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                    </Button>
                 </div>
             </CardHeader>
             <CardContent>
@@ -37,7 +40,7 @@ export function CalendarWidget() {
                     {upcomingEvents.length > 0 ? (
                         upcomingEvents.map(event => (
                             <div key={event.id} className="flex items-start gap-4">
-                                <div className="flex flex-col items-center justify-center rounded-md bg-secondary p-2 text-secondary-foreground w-12 h-12">
+                                <div className="flex flex-col items-center justify-center rounded-md bg-secondary p-2 text-secondary-foreground w-12 h-12 flex-shrink-0">
                                     <span className="text-xs font-semibold">{format(event.date, 'MMM')}</span>
                                     <span className="text-xl font-bold">{format(event.date, 'dd')}</span>
                                 </div>
@@ -48,7 +51,7 @@ export function CalendarWidget() {
                                         <span>{format(event.date, 'EEEE, p')}</span>
                                     </div>
                                 </div>
-                                <Badge variant={categoryVariants[event.category]}>{event.category}</Badge>
+                                <Badge variant={categoryVariants[event.category]} className="self-center">{event.category}</Badge>
                             </div>
                         ))
                     ) : (
