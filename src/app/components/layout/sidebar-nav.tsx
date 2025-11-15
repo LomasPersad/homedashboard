@@ -21,7 +21,6 @@ export function SidebarNav() {
     <SidebarMenu>
       {links.map((link) => (
         <SidebarMenuItem key={link.href}>
-          <Link href={link.href} legacyBehavior passHref>
             <SidebarMenuButton
               asChild
               isActive={pathname === link.href}
@@ -33,12 +32,11 @@ export function SidebarNav() {
                 className: 'font-headline',
               }}
             >
-              <a>
+              <Link href={link.href}>
                 <link.icon className="h-5 w-5" />
                 <span className="font-headline tracking-wide">{link.label}</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
-          </Link>
         </SidebarMenuItem>
       ))}
     </SidebarMenu>
