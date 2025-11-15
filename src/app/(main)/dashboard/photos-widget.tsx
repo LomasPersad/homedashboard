@@ -6,8 +6,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export function PhotosWidget() {
-    const recentPhotos = PlaceHolderImages.slice(0, 3);
-    const remainingCount = PlaceHolderImages.length > 3 ? PlaceHolderImages.length - 3 : 0;
+    const recentPhotos = PlaceHolderImages.slice(0, 6);
 
     return (
         <Card>
@@ -28,11 +27,6 @@ export function PhotosWidget() {
                                 className="object-cover transition-transform hover:scale-105"
                                 data-ai-hint={photo.imageHint}
                             />
-                             {index === 2 && remainingCount > 0 && (
-                                <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-                                    <span className="text-2xl font-bold text-white">+{remainingCount}</span>
-                                </div>
-                            )}
                         </Link>
                     ))}
                 </div>

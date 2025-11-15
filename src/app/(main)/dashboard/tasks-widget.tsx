@@ -17,7 +17,7 @@ export function TasksWidget() {
     const highPriorityTasks = tasks.filter(t => !t.completed).sort((a,b) => {
         const priorityOrder = { high: 0, medium: 1, low: 2 };
         return priorityOrder[a.priority] - priorityOrder[b.priority];
-    }).slice(0, 4);
+    }).slice(0, 5);
 
     return (
         <Card>

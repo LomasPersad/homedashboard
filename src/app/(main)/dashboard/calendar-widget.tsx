@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarIcon, Plus } from "lucide-react";
-import { events } from "@/lib/data";
-import { format } from "date-fns";
+import { events, festivals } from "@/lib/data";
+import { format, parse } from "date-fns";
 import Link from "next/link";
 import { Badge, BadgeProps } from "@/components/ui/badge";
 import { AddEventDialog } from "@/app/components/add-event-dialog";
@@ -15,12 +15,21 @@ const categoryVariants: Record<typeof events[0]['category'], BadgeProps['variant
 }
 
 export function CalendarWidget() {
-    const upcomingEvents = events.filter(e => e.date >= new Date()).sort((a, b) => a.date.getTime() - b.date.getTime()).slice(0, 3);
+    const allEvents = [
+      ...events,
+      ...festivals.map(f => ({
+          id: `fest-${f.name}`,
+          title: f.name,
+          date: parse(f.date, 'MMMM d, yyyy', new Date()),
+          category: 'festival' as const,
+      }))
+    ];
+    const upcomingEvents = allEvents.filter(e => e.date >= new Date()).sort((a, b) => a.date.getTime() - b.date.getTime()).slice(0, 3);
 
     return (
         <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="font-headline text-lg">Upcoming Events</CardTitle>
+                <CardTitle className="font-headline text-lg">Upcoming</CardTitle>
                 <div className="flex items-center gap-2">
                     <Button variant="outline" size="sm" asChild>
                         <Link href="/calendar">View All</Link>
