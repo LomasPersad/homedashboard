@@ -15,6 +15,21 @@ export type Task = {
   priority: 'low' | 'medium' | 'high';
 };
 
+export type BabyActivity = {
+  id: string;
+  type: 'Nap' | 'Bottle' | 'Meds';
+  time: Date;
+  details: {
+    startTime?: Date;
+    endTime?: Date;
+    duration?: string; // e.g., "1h 30m"
+    amount?: number; // in ml or oz
+    unit?: 'ml' | 'oz';
+    medicine?: string;
+    dosage?: string;
+  };
+};
+
 const today = new Date();
 const tomorrow = new Date(today);
 tomorrow.setDate(tomorrow.getDate() + 1);
@@ -47,4 +62,29 @@ export const festivals = [
     { name: 'Holi', date: 'March 14, 2025' },
     { name: 'Navaratri', date: 'October 3, 2024' },
     { name: 'Raksha Bandhan', date: 'August 19, 2024' },
+];
+
+export const initialBabyActivities: BabyActivity[] = [
+  {
+    id: '1',
+    type: 'Bottle',
+    time: new Date(new Date().setHours(new Date().getHours() - 2)),
+    details: { amount: 120, unit: 'ml' }
+  },
+  {
+    id: '2',
+    type: 'Nap',
+    time: new Date(new Date().setHours(new Date().getHours() - 4)),
+    details: { 
+        startTime: new Date(new Date().setHours(new Date().getHours() - 5, 30)),
+        endTime: new Date(new Date().setHours(new Date().getHours() - 4)),
+        duration: '1h 30m' 
+    }
+  },
+    {
+    id: '3',
+    type: 'Meds',
+    time: new Date(new Date().setHours(new Date().getHours() - 8)),
+    details: { medicine: 'Vitamin D Drops', dosage: '0.5ml' }
+  },
 ];

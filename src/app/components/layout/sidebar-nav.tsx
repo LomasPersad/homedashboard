@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Calendar, CheckSquare, Image as ImageIcon, LayoutDashboard, Home } from 'lucide-react';
+import { Baby, Calendar, CheckSquare, Image as ImageIcon, LayoutDashboard } from 'lucide-react';
 import { SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
 import { FamilyHubLogo } from '../icons';
@@ -12,6 +12,7 @@ const links = [
   { href: '/calendar', label: 'Calendar', icon: Calendar },
   { href: '/tasks', label: 'Tasks', icon: CheckSquare },
   { href: '/photos', label: 'Photos', icon: ImageIcon },
+  { href: '/baby-tracker', label: 'Baby Tracker', icon: Baby },
 ];
 
 export function SidebarNav() {
